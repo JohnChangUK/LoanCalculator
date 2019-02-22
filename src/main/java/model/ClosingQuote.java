@@ -1,5 +1,6 @@
 package model;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -7,12 +8,12 @@ import java.util.Optional;
 import exception.UnavailableLoanException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import service.CalculationService;
+import service.Calculation;
 import service.LenderService;
 
 import static utils.Utils.roundUpNumber;
 
-public class ClosingQuote {
+public class ClosingQuote<T extends Calculation> {
 
     private static final Logger log = LoggerFactory.getLogger(ClosingQuote.class);
 
@@ -20,18 +21,18 @@ public class ClosingQuote {
     private double rate;
     private double monthlyRepayment;
     private double totalRepayment;
-    private String data;
     private LenderService lenderService;
+    private Calculation calculationService;
     private List<Lender> validLenders;
 
-    public ClosingQuote(Integer requestedAmount, String csvFile) {
+    public ClosingQuote(final Integer requestedAmount, final String csvFile, final T calculationService) {
+        this.lenderService = new LenderService<>(csvFile, calculationService);
+        this.calculationService = calculationService;
         this.requestedAmount = requestedAmount;
-        this.lenderService = new LenderService(csvFile);
         this.validLenders = getValidLenders().orElseGet(Collections::emptyList);
-        this.data = data;
         this.rate = getRate();
-        this.monthlyRepayment = monthlyRepayment;
-        this.totalRepayment = totalRepayment;
+        this.monthlyRepayment = getMonthlyPaymentDouble();
+        this.totalRepayment = getTotalRepayment();
     }
 
     private Optional<List<Lender>> getValidLenders() {
@@ -44,12 +45,30 @@ public class ClosingQuote {
     }
 
     private double getTotalRepayment() {
-        return roundUpNumber(2, CalculationService.getTotalPayment(
-                requestedAmount, CalculationService.getTotalRateAverage(validLenders)));
+        return roundUpNumber(2, calculationService.getTotalPayment(
+                requestedAmount, calculationService.getTotalRateAverage(validLenders)));
     }
 
     private double getRate() {
         return roundUpNumber(1,
-                CalculationService.getTotalRateAverage(validLenders).doubleValue() * 100);
+                calculationService.getTotalRateAverage(validLenders).doubleValue() * 100);
+    }
+
+    private double getMonthlyPaymentDouble() {
+        return roundUpNumber(2, getMonthlyRepayment().doubleValue());
+    }
+
+    private BigDecimal getMonthlyRepayment() {
+        return calculationService.getPaymentsPerMonth(requestedAmount, BigDecimal.valueOf(rate));
+    }
+
+    @Override
+    public String toString() {
+        return "ClosingQuote{" +
+                "requestedAmount=" + requestedAmount +
+                ", rate=" + rate +
+                ", monthlyRepayment=" + monthlyRepayment +
+                ", totalRepayment=" + totalRepayment +
+                '}';
     }
 }

@@ -7,10 +7,11 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.List;
 
-public class CalculationService {
+public class CalculationService implements Calculation {
     private static final Integer LOAN_REPAYMENT_DURATION = 36;
 
-    static int getMaximumLoanSum(List<Lender> lenders) {
+    @Override
+    public int getMaximumLoanSum(final List<Lender> lenders) {
         int loanTotal = 0;
         for (Lender lender : lenders) {
             loanTotal += lender.getAvailable();
@@ -19,7 +20,8 @@ public class CalculationService {
         return loanTotal;
     }
 
-    public static BigDecimal getTotalRateAverage(List<Lender> lenders) {
+    @Override
+    public BigDecimal getTotalRateAverage(final List<Lender> lenders) {
         BigDecimal rateTotal = BigDecimal.ZERO;
         for (Lender lender : lenders) {
             rateTotal = rateTotal.add(lender.getRate());
@@ -35,7 +37,8 @@ public class CalculationService {
      * D = 166.7916 ({[(1+.005)^36] - 1} / [.005(1+.005)^36])
      * P = A / D = 100,000 / 166.7916 = 599.55
      */
-    private static BigDecimal getPaymentsPerMonth(Integer amount, BigDecimal rate) {
+    @Override
+    public BigDecimal getPaymentsPerMonth(final Integer amount, final BigDecimal rate) {
         BigDecimal monthlyInterestRate = rate.divide(BigDecimal.valueOf(12), 10, RoundingMode.HALF_EVEN);
 
         BigDecimal discountNumerator = monthlyInterestRate.add(BigDecimal.ONE
@@ -52,7 +55,8 @@ public class CalculationService {
         return BigDecimal.valueOf(amount).divide(discountFactor, MathContext.DECIMAL64);
     }
 
-    public static double getTotalPayment(Integer amount, BigDecimal rate) {
+    @Override
+    public double getTotalPayment(final Integer amount, final BigDecimal rate) {
         return getPaymentsPerMonth(amount, rate)
                 .multiply(BigDecimal.valueOf(LOAN_REPAYMENT_DURATION))
                 .doubleValue();

@@ -19,20 +19,22 @@ import java.util.Objects;
 
 import static utils.Utils.LOAN_UNAVAILABLE;
 
-public class LenderService {
+public class LenderService<T extends Calculation> {
 
     private static final Logger log = LoggerFactory.getLogger(LenderService.class);
 
     private List<Lender> allLenders;
     private Integer amountToLend;
     private CSVParser csvParser;
+    private Calculation calculationService;
 
-    public LenderService(String csvFile) {
+    public LenderService(final String csvFile, final T calculation) {
         this.allLenders = getLendersFromCsv(csvFile);
-        this.amountToLend = CalculationService.getMaximumLoanSum(allLenders);
+        this.calculationService = calculation;
+        this.amountToLend = calculationService.getMaximumLoanSum(allLenders);
     }
 
-    public List<Lender> getLendersFromRequestedAmount(Integer requestedAmount) throws UnavailableLoanException {
+    public List<Lender> getLendersFromRequestedAmount(final Integer requestedAmount) throws UnavailableLoanException {
         Integer amount = requestedAmount;
         List<Lender> validLenders = new ArrayList<>();
 
@@ -56,17 +58,18 @@ public class LenderService {
     }
 
     private List<Lender> getLendersFromCsv(String csvFile) {
-        Path path = Paths.get(Objects.requireNonNull(getClass().getClassLoader().getResource("marketdata.csv")).getPath());
+        final Path path = Paths.get(Objects.requireNonNull(
+                getClass().getClassLoader().getResource("marketdata.csv")).getPath());
 
         try {
             csvParser = new CSVParser(Files.newBufferedReader(path), CSVFormat.DEFAULT
                     .withIgnoreHeaderCase()
-                    .withFirstRecordAsHeader()
-                    .withTrim());
+                    .withFirstRecordAsHeader());
         } catch (IOException e) {
             log.error("Error parsing CSV file: ", e);
         }
 
+        allLenders = new ArrayList<>();
         for (CSVRecord record : csvParser) {
             String lender = record.get("Lender");
             BigDecimal rate = new BigDecimal(record.get("Rate"));

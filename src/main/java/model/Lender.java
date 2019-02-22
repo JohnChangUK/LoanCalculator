@@ -9,7 +9,7 @@ public class Lender {
     private BigDecimal rate;
     private Integer available;
 
-    public Lender(String name, BigDecimal rate, Integer available) {
+    public Lender(final String name, final BigDecimal rate, final Integer available) {
         this.name = name;
         this.rate = rate;
         this.available = available;

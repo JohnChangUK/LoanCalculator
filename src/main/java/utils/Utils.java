@@ -1,7 +1,5 @@
 package utils;
 
-import exception.UnavailableLoanException;
-
 import java.math.BigDecimal;
 
 public class Utils {
@@ -17,15 +15,12 @@ public class Utils {
     public static final String INVALID_INPUT = "Input is invalid, please provide the CSV file as the first argument " +
             "and the loan amount as the second";
 
-    public static double roundUpNumber(int roundUpNumber, double value) {
+    public static double roundUpNumber(final int roundUpNumber, final double value) {
         BigDecimal decimalValue = new BigDecimal(Double.toString(value));
         return decimalValue.setScale(roundUpNumber, BigDecimal.ROUND_HALF_EVEN).doubleValue();
     }
 
-    public static boolean isValidRequestedAmount(Integer amount) throws UnavailableLoanException {
-        if (amount % LOAN_INCREMENT_STEP != 0 || amount < MINIMUM_LOAN || amount > MAXIMUM_LOAN)
-            throw new UnavailableLoanException(INVALID_AMOUNT);
-
-        return true;
+    public static boolean isValidRequestedAmount(final Integer amount) {
+        return amount % LOAN_INCREMENT_STEP == 0 && amount >= MINIMUM_LOAN && amount <= MAXIMUM_LOAN;
     }
 }
