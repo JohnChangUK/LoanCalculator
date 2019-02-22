@@ -2,7 +2,8 @@ import exception.UnavailableLoanException;
 import model.ClosingQuote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.Utils;
+
+import static utils.Utils.INVALID_AMOUNT;
 
 public class InitialQuote {
 
@@ -28,7 +29,7 @@ public class InitialQuote {
 
     private static boolean isValidRequestedAmount(Integer amount) throws UnavailableLoanException {
         if (amount % LOAN_INCREMENT_STEP != 0 || amount < MINIMUM_LOAN || amount > MAXIMUM_LOAN)
-            throw new UnavailableLoanException(Utils.INVALID_AMOUNT);
+            throw new UnavailableLoanException(INVALID_AMOUNT);
 
         return true;
     }

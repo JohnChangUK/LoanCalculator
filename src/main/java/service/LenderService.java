@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static utils.Utils.LOAN_UNAVAILABLE;
+
 public class LenderService {
 
     private static final Logger log = LoggerFactory.getLogger(LenderService.class);
@@ -36,7 +38,7 @@ public class LenderService {
         List<Lender> validLenders = new ArrayList<>();
 
         if (amount > amountToLend) {
-            throw new UnavailableLoanException(Utils.LOAN_UNAVAILABLE);
+            throw new UnavailableLoanException(LOAN_UNAVAILABLE);
         }
 
         for (Lender lender : allLenders) {

@@ -1,15 +1,16 @@
 package model;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import exception.UnavailableLoanException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.CalculationService;
 import service.LenderService;
 
-import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import static utils.Utils.roundUpNumber;
 
 public class ClosingQuote {
 
@@ -50,10 +51,5 @@ public class ClosingQuote {
     private double getRate() {
         return roundUpNumber(1,
                 CalculationService.getTotalRateAverage(validLenders).doubleValue() * 100);
-    }
-
-    private double roundUpNumber(int roundUpNumber, double value) {
-        BigDecimal decimalValue = new BigDecimal(Double.toString(value));
-        return decimalValue.setScale(roundUpNumber, BigDecimal.ROUND_HALF_EVEN).doubleValue();
     }
 }
