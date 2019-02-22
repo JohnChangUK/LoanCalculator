@@ -28,19 +28,26 @@ public class CalculationService {
         return rateTotal.divide(BigDecimal.valueOf(lenders.size()), MathContext.DECIMAL64);
     }
 
-    public static BigDecimal getPaymentsPerMonth(Integer amount, BigDecimal rate) {
+    /**
+     * Algorithm for calculating monthly payments
+     * n = 36 (3 years times 12 monthly payments per year)
+     * i = .005 (6 percent annually expressed as .06, divided by 12 monthly payments per year—learn how to convert percentages to decimal format)
+     * D = 166.7916 ({[(1+.005)^36] - 1} / [.005(1+.005)^36])
+     * P = A / D = 100,000 / 166.7916 = 599.55
+     */
+    private static BigDecimal getPaymentsPerMonth(Integer amount, BigDecimal rate) {
         BigDecimal monthlyInterestRate = rate.divide(BigDecimal.valueOf(12), 10, RoundingMode.HALF_EVEN);
 
-        BigDecimal discountDivisor = monthlyInterestRate.add(BigDecimal.ONE
+        BigDecimal discountNumerator = monthlyInterestRate.add(BigDecimal.ONE
                 .add(monthlyInterestRate)
                 .pow(LOAN_REPAYMENT_DURATION, MathContext.DECIMAL64))
                 .subtract(BigDecimal.ONE);
 
-        BigDecimal discountDivisorTwo = monthlyInterestRate.multiply(BigDecimal.ONE
+        BigDecimal discountDenominator = monthlyInterestRate.multiply(BigDecimal.ONE
                 .add(monthlyInterestRate)
                 .pow(LOAN_REPAYMENT_DURATION, MathContext.DECIMAL64));
 
-        BigDecimal discountFactor = discountDivisor.divide(discountDivisorTwo, MathContext.DECIMAL64);
+        BigDecimal discountFactor = discountNumerator.divide(discountDenominator, MathContext.DECIMAL64);
 
         return BigDecimal.valueOf(amount).divide(discountFactor, MathContext.DECIMAL64);
     }

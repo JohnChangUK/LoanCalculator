@@ -38,7 +38,7 @@ public class ClosingQuote {
         try {
             return Optional.of(lenderService.getLendersFromRequestedAmount(requestedAmount));
         } catch (UnavailableLoanException e) {
-            log.error("Exception: ", e);
+            log.error("Error: ", e);
         }
         return Optional.empty();
     }
