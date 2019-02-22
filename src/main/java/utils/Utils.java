@@ -3,9 +3,10 @@ package utils;
 import java.math.BigDecimal;
 
 public class Utils {
-    public static final int MINIMUM_LOAN = 1000;
-    public static final int MAXIMUM_LOAN = 15000;
-    public static final int LOAN_INCREMENT_STEP = 100;
+
+    private static final int MINIMUM_LOAN = 1000;
+    private static final int MAXIMUM_LOAN = 15000;
+    private static final int LOAN_INCREMENT_STEP = 100;
 
     public static final String INVALID_AMOUNT = "Requested loan is invalid, please provide an amount between £1,000 and £15,000" +
             "with increments of exactly £100";

@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -59,7 +60,7 @@ public class LenderService<T extends Calculation> {
 
     private List<Lender> getLendersFromCsv(String csvFile) {
         final Path path = Paths.get(Objects.requireNonNull(
-                getClass().getClassLoader().getResource("marketdata.csv")).getPath());
+                getClass().getClassLoader().getResource(csvFile)).getPath());
 
         try {
             csvParser = new CSVParser(Files.newBufferedReader(path), CSVFormat.DEFAULT
@@ -78,6 +79,7 @@ public class LenderService<T extends Calculation> {
             allLenders.add(new Lender(lender, rate, available));
         }
 
+        Collections.sort(allLenders);
         return allLenders;
     }
 }

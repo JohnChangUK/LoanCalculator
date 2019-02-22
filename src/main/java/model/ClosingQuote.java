@@ -59,16 +59,14 @@ public class ClosingQuote<T extends Calculation> {
     }
 
     private BigDecimal getMonthlyRepayment() {
-        return calculationService.getPaymentsPerMonth(requestedAmount, BigDecimal.valueOf(rate));
+        return calculationService.getPaymentsPerMonth(requestedAmount, calculationService.getTotalRateAverage(validLenders));
     }
 
     @Override
     public String toString() {
-        return "ClosingQuote{" +
-                "requestedAmount=" + requestedAmount +
-                ", rate=" + rate +
-                ", monthlyRepayment=" + monthlyRepayment +
-                ", totalRepayment=" + totalRepayment +
-                '}';
+        return "RequestedAmount: £" + requestedAmount + "\n" +
+                "Rate: " + rate + "% " + "\n" +
+                "MonthlyRepayment: £" + monthlyRepayment + "\n" +
+                "TotalRepayment: £" + totalRepayment;
     }
 }

@@ -3,7 +3,7 @@ package model;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Lender {
+public class Lender implements Comparable<Lender> {
 
     private String name;
     private BigDecimal rate;
@@ -25,6 +25,11 @@ public class Lender {
 
     public Integer getAvailable() {
         return available;
+    }
+
+    @Override
+    public int compareTo(Lender lender2) {
+        return Integer.compare(this.getRate().compareTo(lender2.getRate()), 0);
     }
 
     @Override

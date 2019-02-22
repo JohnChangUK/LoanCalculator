@@ -18,7 +18,7 @@ public class MainQuote {
             Integer requestedAmount = Integer.valueOf(args[1]);
             if (isValidRequestedAmount(requestedAmount)) {
                 ClosingQuote<Calculation> closingQuote = new ClosingQuote<>(requestedAmount, data, new CalculationService());
-                log.info("Quote: ", closingQuote);
+                System.out.println(closingQuote.toString());
             } else {
                 throw new UnavailableLoanException(INVALID_AMOUNT);
             }

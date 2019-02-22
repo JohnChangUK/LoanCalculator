@@ -4,10 +4,10 @@ import model.Lender;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.List;
 
 public class CalculationService implements Calculation {
+
     private static final Integer LOAN_REPAYMENT_DURATION = 36;
 
     @Override
@@ -39,11 +39,10 @@ public class CalculationService implements Calculation {
      */
     @Override
     public BigDecimal getPaymentsPerMonth(final Integer amount, final BigDecimal rate) {
-        BigDecimal monthlyInterestRate = rate.divide(BigDecimal.valueOf(12), 10, RoundingMode.HALF_EVEN);
+        BigDecimal monthlyInterestRate = rate.divide(BigDecimal.valueOf(12), MathContext.DECIMAL64);
 
-        BigDecimal discountNumerator = monthlyInterestRate.add(BigDecimal.ONE
-                .add(monthlyInterestRate)
-                .pow(LOAN_REPAYMENT_DURATION, MathContext.DECIMAL64))
+        BigDecimal discountNumerator = monthlyInterestRate.add(BigDecimal.ONE)
+                .pow(LOAN_REPAYMENT_DURATION, MathContext.DECIMAL64)
                 .subtract(BigDecimal.ONE);
 
         BigDecimal discountDenominator = monthlyInterestRate.multiply(BigDecimal.ONE
