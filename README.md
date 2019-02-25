@@ -13,9 +13,9 @@ Running the following:
 
 Produces:
 ```aidl
-RequestedAmount: £1000
+Requested Amount: £1000
 Rate: 7.0% 
-MonthlyRepayment: £30.88
-TotalRepayment: £1111.58
+Monthly Repayment: £30.88
+Total Repayment: £1111.58
 
 ```

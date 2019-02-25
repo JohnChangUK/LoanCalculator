@@ -64,9 +64,9 @@ public class ClosingQuote<T extends Calculation> {
 
     @Override
     public String toString() {
-        return "RequestedAmount: £" + requestedAmount + "\n" +
+        return "Requested Amount: £" + requestedAmount + "\n" +
                 "Rate: " + rate + "% " + "\n" +
-                "MonthlyRepayment: £" + monthlyRepayment + "\n" +
-                "TotalRepayment: £" + totalRepayment;
+                "Monthly Repayment: £" + monthlyRepayment + "\n" +
+                "Total Repayment: £" + totalRepayment;
     }
 }
