@@ -5,8 +5,11 @@
 - From the root directory, run `./gradlew clean check`, this will clean the project and run all tests
 - Run `gradle customFatJar`, as this will build a jar of all the dependencies
 
-- To run the program, run use the following command:
-`java -jar build/libs/quote-1.0-SNAPSHOT.jar [path_to_csv_file] [requested_loan_amount]`
+- This will create the jar file under the folder `build/libs/<created_jar_file.jar>` which 
+you can run the program
+
+- To run the program, run use the following command in the root directory:
+`java -jar build/libs/quote-1.0-SNAPSHOT.jar <path_to_csv> <requested_amount>`
 
 Running the following: 
 `java -jar build/libs/all-in-one-jar-1.0-SNAPSHOT.jar src/main/resources/marketdata.csv 1000`
