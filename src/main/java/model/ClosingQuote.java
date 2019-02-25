@@ -25,9 +25,9 @@ public class ClosingQuote<T extends Calculation> {
     private Calculation calculationService;
     private List<Lender> validLenders;
 
-    public ClosingQuote(final Integer requestedAmount, final String csvFile, final T calculationService) {
-        this.lenderService = new LenderService<>(csvFile, calculationService);
-        this.calculationService = calculationService;
+    public ClosingQuote(final Integer requestedAmount, final String csvFile, final T calculation) {
+        this.lenderService = new LenderService<>(csvFile, calculation);
+        this.calculationService = calculation;
         this.requestedAmount = requestedAmount;
         this.validLenders = getValidLenders().orElseGet(Collections::emptyList);
         this.rate = getRate();
@@ -44,17 +44,17 @@ public class ClosingQuote<T extends Calculation> {
         return Optional.empty();
     }
 
-    private double getTotalRepayment() {
+    double getTotalRepayment() {
         return roundUpNumber(2, calculationService.getTotalPayment(
                 requestedAmount, calculationService.getTotalRateAverage(validLenders)));
     }
 
-    private double getRate() {
+    double getRate() {
         return roundUpNumber(1,
                 calculationService.getTotalRateAverage(validLenders).doubleValue() * 100);
     }
 
-    private double getMonthlyPaymentDouble() {
+    double getMonthlyPaymentDouble() {
         return roundUpNumber(2, getMonthlyRepayment().doubleValue());
     }
 

@@ -24,7 +24,7 @@ public class MainQuote implements Runnable {
     }
 
     public static void main(String[] args) {
-        new MainQuote(args[0], Integer.valueOf(args[1])).run();
+        new Thread(new MainQuote(args[0], Integer.valueOf(args[1]))).start();
     }
 
     public void run() {

@@ -82,4 +82,8 @@ public class LenderService<T extends Calculation> {
         Collections.sort(allLenders);
         return allLenders;
     }
+
+    public List<Lender> getAllLenders() {
+        return allLenders;
+    }
 }
