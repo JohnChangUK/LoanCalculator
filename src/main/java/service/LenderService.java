@@ -19,12 +19,10 @@ public class LenderService<T extends Calculation> {
 
     private List<Lender> allLenders;
     private Integer amountToLend;
-    private Calculation calculationService;
 
     public LenderService(final String csvFile, final T calculation) {
         this.allLenders = getLendersFromCsv(csvFile);
-        this.calculationService = calculation;
-        this.amountToLend = calculationService.getMaximumLoanSum(allLenders);
+        this.amountToLend = calculation.getMaximumLoanSum(allLenders);
     }
 
     public List<Lender> getLendersFromRequestedAmount(final Integer requestedAmount) throws UnavailableLoanException {
@@ -63,7 +61,7 @@ public class LenderService<T extends Calculation> {
         return allLenders;
     }
 
-    public List<Lender> getAllLenders() {
+    List<Lender> getAllLenders() {
         return allLenders;
     }
 }

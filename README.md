@@ -1,5 +1,9 @@
 # Loan calculation 
 
+# About
+- This program parses through the given CSV file, with the name of the lender, interest rate, amount willing to loan
+and calculates the best rate for the client.
+
 ## Run the project
 - Install Gradle if not installed already: https://gradle.org/install/
 - From the root directory, run `./gradlew clean check`, this will clean the project and run all tests
