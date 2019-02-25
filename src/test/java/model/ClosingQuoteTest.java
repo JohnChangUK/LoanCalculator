@@ -13,7 +13,7 @@ public class ClosingQuoteTest {
 
     @Before
     public void init() {
-        quote = new ClosingQuote<>(1000, "marketdata.csv", new CalculationService());
+        quote = new ClosingQuote<>(1000, "src/main/resources/marketdata.csv", new CalculationService());
     }
 
     @Test

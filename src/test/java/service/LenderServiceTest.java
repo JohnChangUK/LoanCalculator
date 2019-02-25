@@ -22,7 +22,7 @@ public class LenderServiceTest {
 
     @Before
     public void init() {
-        lenderService = new LenderService<>("marketdata.csv", new CalculationService());
+        lenderService = new LenderService<>("src/main/resources/marketdata.csv", new CalculationService());
         allLenders = lenderService.getAllLenders();
         jane = allLenders.get(0);
         fred = allLenders.get(1);
